@@ -70,6 +70,7 @@ public class HomeWorkApp4_5x5 {
         System.out.println();
     }
 
+
     public static void humanTurn() {
         int x, y;
         do {
