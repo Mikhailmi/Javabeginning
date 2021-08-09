@@ -44,7 +44,6 @@ public class HomeWorkApp4_block_3x3 {
 
     }
 
-
     public static void initMap() {
         map = new char[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {

@@ -81,6 +81,7 @@ public class HomeWorkApp4_5x5 {
         map[y][x] = DOT_X;
     }
 
+
     private static boolean isCellValid(int x, int y) {
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) return false;
         if (map[y][x] == DOT_EMPTY) return true;

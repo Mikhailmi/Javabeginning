@@ -97,6 +97,7 @@ public class HomeWorkApp4 {
         map[y][x] = DOT_O;
     }
 
+
     public static boolean checkWinCycle(char symb) {
         for (int i = 0; i < 3; i++) {
             if (map[i][0] == symb && map[i][1] == symb && map[i][2] == symb) return true;
