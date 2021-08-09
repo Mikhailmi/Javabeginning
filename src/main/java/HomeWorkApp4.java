@@ -87,6 +87,7 @@ public class HomeWorkApp4 {
         return false;
     }
 
+
     public static void aiTurn() {
         int x, y;
         do {
