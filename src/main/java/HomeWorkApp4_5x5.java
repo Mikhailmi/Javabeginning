@@ -2,7 +2,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 
-
 public class HomeWorkApp4_5x5 {
     public static int SIZE = 5;
     public static int DOTS_TO_WIN = 4;
