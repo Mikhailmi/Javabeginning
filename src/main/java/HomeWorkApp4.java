@@ -87,6 +87,7 @@ public class HomeWorkApp4 {
         return false;
     }
 
+
     public static void aiTurn() {
         int x, y;
         do {
@@ -96,6 +97,7 @@ public class HomeWorkApp4 {
         System.out.println("Компьютер походил в точку " + (x + 1) + " " + (y + 1));
         map[y][x] = DOT_O;
     }
+
 
     public static boolean checkWinCycle(char symb) {
         for (int i = 0; i < 3; i++) {
@@ -119,5 +121,6 @@ public class HomeWorkApp4 {
         return true;
 
     }
+
 
 }
