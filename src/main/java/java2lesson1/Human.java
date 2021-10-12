@@ -22,6 +22,7 @@ public class Human implements Run, Jump, Participants {
 
 
 
+
     @Override
     public void run() {
         System.out.println("Человек бежит");
