@@ -6,4 +6,3 @@ public interface Jump {
 
    void wallJump ();
 }
-

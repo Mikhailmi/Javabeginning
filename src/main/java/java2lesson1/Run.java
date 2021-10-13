@@ -7,4 +7,3 @@ public interface Run {
   void treadmillRun();
 
 }
-

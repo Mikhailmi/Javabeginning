@@ -21,7 +21,6 @@ public class Cat implements Run, Jump, Participants {
     @Override
     public void wallJump() {
         System.out.println("Кот успешно перепрыгнул через стену");
-
     }
 
       private int catDistance, catJump;
@@ -38,8 +37,6 @@ public class Cat implements Run, Jump, Participants {
     public int catJump() {
         return catJump;
     }
-
-
 
 };
 

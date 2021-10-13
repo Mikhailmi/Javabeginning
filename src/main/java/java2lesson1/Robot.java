@@ -32,15 +32,13 @@ public class Robot implements Run, Jump, Participants {
 
     }
 
-
     public int robotDistance() {
+
         return robotDistance;
     }
 
     public int robotJump() {
         return robotJump;
     }
-
-
 
 };

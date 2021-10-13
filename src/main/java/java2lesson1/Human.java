@@ -2,13 +2,11 @@ package java2lesson1;
 
 public class Human implements Run, Jump, Participants {
 
-
-
     private int humanDistance, humanJump;
 
     public Human(int humanDistance, int humanJump) {
-        this.humanDistance = humanJump;
-        this.humanDistance = humanJump;
+        this.humanDistance = humanDistance;
+        this.humanJump= humanJump;
     }
 
     public int humanDistance() {
@@ -16,9 +14,9 @@ public class Human implements Run, Jump, Participants {
     }
 
     public int humanJump() {
+
         return humanJump;
     }
-
 
 
 

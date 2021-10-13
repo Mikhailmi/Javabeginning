@@ -4,8 +4,6 @@ package java2lesson1;
 
 public class Treadmill implements Obstacles {
 
-
-
     private int distance;
 
     public Treadmill(int distance) {
@@ -18,4 +16,3 @@ public class Treadmill implements Obstacles {
 
     }
 }
-
