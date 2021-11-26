@@ -15,13 +15,15 @@ import java.net.Socket;
 public class EchoClient extends JFrame {
 
 
-
         private JTextField textField;
         private JTextArea textArea;
+
 
         private Socket socket;
         private DataInputStream dataInputStream;
         private DataOutputStream dataOutputStream;
+        private String login;
+
 
         public EchoClient() {
             try {
@@ -33,32 +35,53 @@ public class EchoClient extends JFrame {
             prepareUI();
         }
 
-        private void openConnection () throws IOException {
+        private void openConnection () throws IOException  {
             socket = new Socket(Constants.SERVER_ADRESS, Constants.SERVER_PORT);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            new Thread(() -> {
-            try {
-                while (true) {
-                    String messageFromServer = dataInputStream.readUTF();
-                    if (messageFromServer.equals("/end")){
-                        break;
-                    }
-                    textArea.append(messageFromServer);
-                    textArea.append("\n");
 
+            new Thread(() -> {
+                try {
+                    while (true) {
+                            String messageFromServer = dataInputStream.readUTF();
+                            if (messageFromServer.equals("/end")) {
+                                break;
+                            }
+
+                        if (messageFromServer.startsWith(Constants.AUTH_OK_COMMAND)) {
+
+                            String[] tokens = messageFromServer.split("\\s+");
+                            this.login = tokens[1];
+                            textArea.append("Успешно авторизован как " + login);
+                            textArea.append("\n");
+                        } else if (messageFromServer.startsWith(Constants.CLIENTS_LIST_COMMAND)) {
+                            // список клиентов
+
+                        } else {
+                            textArea.append(messageFromServer);
+                            textArea.append("\n");
+                        }
+
+                    }
+                    textArea.append("Соединение разорвано");
+                    textField.setEnabled(false);
+                    closeConnection();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                textArea.append("Соединение разорвано");
-                textField.setEnabled(false);
-                closeConnection();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
             }).start();
+
+
+
+
         }
+
+
+
 
         private void closeConnection () {
             try {
+
                 dataOutputStream.close();
             } catch (Exception ex) {
 
@@ -147,8 +170,13 @@ public class EchoClient extends JFrame {
             setVisible(true);
         }
 
+
+
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(EchoClient::new);
+
+
     }
 }
 

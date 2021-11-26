@@ -97,4 +97,13 @@ public class MyServer {
     }
 
 
+    public synchronized String getActiveClients() {
+        StringBuilder sb = new StringBuilder(Constants.CLIENTS_LIST_COMMAND).append(" ");
+        for (ClientHandler clientHandler : clients) {
+            sb.append(clientHandler.getNick()).append(" ");
+
+        }
+        return sb.toString();
+
+    }
 }

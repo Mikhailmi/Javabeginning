@@ -19,4 +19,6 @@ public class Constants {
     public static final String AUTH_OK_COMMAND = "/authok";
 
     public static final String PRIVATE_CHAT_COMMAND = "/w";
+
+    public static final String CLIENTS_LIST_COMMAND = "/clients";
 }
