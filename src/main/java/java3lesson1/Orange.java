@@ -1,5 +1,6 @@
 package java3lesson1;
 
+
 class Orange extends Fruit{
 
     Orange() {

@@ -23,6 +23,5 @@ public class FruitApp {
         System.out.println(box2.getWeight());
         System.out.println(box3.getWeight());
 
-
     }
 }

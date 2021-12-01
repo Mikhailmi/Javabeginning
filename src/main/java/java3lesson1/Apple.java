@@ -6,5 +6,4 @@ public class Apple extends Fruit {
             this.setWeight(1.0f);
         }
 
-
 }

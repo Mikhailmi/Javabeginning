@@ -41,4 +41,5 @@ public class Box<T extends Fruit> {
         box.items.addAll(this.items);
         clear();
     }
+
 }
