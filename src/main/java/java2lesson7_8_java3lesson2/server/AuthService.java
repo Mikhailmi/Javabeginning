@@ -1,4 +1,6 @@
-package java2lesson7.server;
+package java2lesson7_8_java3lesson2.server;
+
+import java.sql.SQLException;
 
 /**
  * сервис аутентификации
@@ -15,10 +17,10 @@ public interface AuthService {
      * Получить никнейм по логину/паролю
      * @param login
      * @param pass
-     * @return никнейм если найден или null, если такого нет
+     * @return
      */
 
-    String getNickByLoginPass(String login, String pass);
+   String getNickByLoginPass(String login, String pass) throws SQLException;
 
        /**
      * Отключить сервис

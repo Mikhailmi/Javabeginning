@@ -1,4 +1,4 @@
-package java2lesson7.constants;
+package java2lesson7_8_java3lesson2.constants;
 
 public class Constants {
 
@@ -8,7 +8,7 @@ public class Constants {
 
     // порт сервера
 
-    public static final int SERVER_PORT = 8189;
+    public static final int SERVER_PORT = 8190;
 
     // команда конца связи
 
@@ -21,4 +21,7 @@ public class Constants {
     public static final String PRIVATE_CHAT_COMMAND = "/w";
 
     public static final String CLIENTS_LIST_COMMAND = "/clients";
+
+    public static final String CHANGE_NICK_COMMAND = "/rename";
+
 }
