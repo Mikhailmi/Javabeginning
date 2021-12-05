@@ -1,13 +1,13 @@
-package java2lesson7_8_java3lesson2.server;
+package java2lesson7_8_java3lesson2_3.server;
 
 /**
 * Логика сервера
 
  */
 
-import java2lesson7_8_java3lesson2.constants.Constants;
+import java2lesson7_8_java3lesson2_3.constants.Constants;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ public class MyServer {
      * Сервис аутентификации
      */
     private AuthService authService;
+    private File serverHistory;
 
     public AuthService getAuthService() {
         return authService;
@@ -42,6 +43,16 @@ public class MyServer {
                 Socket socket = server.accept();
                 System.out.println("Клиент подключился");
                 new ClientHandler(this, socket);
+
+                File serverDir = new File ("src/main/java/java2lesson7_8_java3lesson2_3/server");
+                if (!serverDir.exists()) {
+                    serverDir.mkdir();
+                }
+                serverHistory = new File (serverDir, "server_history.txt");
+
+                if (!serverHistory.exists()){
+                    serverHistory.createNewFile();
+                }
             }
         } catch (IOException ex) {
             System.out.println("Ошибка в работе сервера");
@@ -69,7 +80,21 @@ public class MyServer {
 
         for (ClientHandler client : clients) {
             client.sendMsg(msg);
-       }  //тоже самое
+            if (!(serverHistory == null)) {
+                byte [] outData = (msg + "\n").getBytes();
+
+                /**
+                 * здесь записываем данные в историю сервера
+                 */
+                try {
+                    FileOutputStream out = new FileOutputStream(serverHistory, true);
+                    out.write(outData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+       }
     }
 
 

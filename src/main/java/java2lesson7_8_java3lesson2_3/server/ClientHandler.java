@@ -1,15 +1,13 @@
-package java2lesson7_8_java3lesson2.server;
+package java2lesson7_8_java3lesson2_3.server;
 
-import java2lesson7_8_java3lesson2.constants.Constants;
+import java2lesson7_8_java3lesson2_3.constants.Constants;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
 
 
 /**
@@ -152,6 +150,9 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

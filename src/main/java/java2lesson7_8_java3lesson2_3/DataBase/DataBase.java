@@ -1,6 +1,4 @@
-package java2lesson7_8_java3lesson2.DataBase;
-
-import java2lesson7_8_java3lesson2.server.AuthService;
+package java2lesson7_8_java3lesson2_3.DataBase;
 
 import java.sql.*;
 
@@ -8,7 +6,6 @@ public class DataBase {
 
     private static Connection connection;
     private static Statement stmt;
-
 
     public static void main(String[] args) {
         try {

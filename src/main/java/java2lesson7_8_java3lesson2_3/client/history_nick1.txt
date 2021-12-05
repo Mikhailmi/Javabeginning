@@ -1,0 +1,16 @@
+/authok nick1
+nick1: rwth
+/authok nick1
+nick1: wrb
+nick1: wnr4
+nick1: nwh
+/authok nick1
+nick2 зашел в чат
+nick3 зашел в чат
+nick3 изменил свой ник на: Mikhail
+Mikhail: brw
+nick1: rwb
+nick2: g3rbrg sf
+Mikhail: rnwh
+nick2: gwtbr
+nick1: nrwth4
