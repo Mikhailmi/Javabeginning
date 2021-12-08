@@ -30,3 +30,19 @@ nick2: gwtbr
 nick1: nrwth4
 nick1: nrwth4
 nick1: nrwth4
+nick2 зашел в чат
+nick2: evwrf
+nick2: evwrf
+nick1: grf
+nick1: grf
+nick3 зашел в чат
+nick3 зашел в чат
+nick3: egr
+nick3: egr
+nick3: egr
+nick2: bgerg
+nick2: bgerg
+nick2: bgerg
+nick1: bewrf
+nick1: bewrf
+nick1: bewrf

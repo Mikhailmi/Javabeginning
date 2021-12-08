@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -31,7 +33,13 @@ public class ClientHandler {
 
     public ClientHandler(MyServer server, Socket socket) {
         try {
-            new Thread(() -> {
+           // new Thread(() -> { // Задание: заменить все серверные треды на экзекьютор сервис - создать пул потоков и потом его переиспользовать
+                // те ранаблы, которые пихали в треды, отправить в экзекутор сервис. Могут понадобиться гетеры для экзекьютор сервис
+
+
+            ExecutorService executorService = Executors.newCachedThreadPool();
+            executorService.execute(() -> {
+
                 try {
                     while (true) {
 
@@ -50,7 +58,8 @@ public class ClientHandler {
                     ex.printStackTrace();
                 }
 
-            }).start();
+            }); // .start();
+            executorService.shutdown();
 
             this.server = server;
             this.socket = socket;
@@ -111,10 +120,6 @@ public class ClientHandler {
         }
 
     }
-
-
-
-
 
     public void readMessages() throws IOException {
         while (true) {

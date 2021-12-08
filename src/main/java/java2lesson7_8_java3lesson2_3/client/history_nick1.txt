@@ -14,3 +14,11 @@ nick2: g3rbrg sf
 Mikhail: rnwh
 nick2: gwtbr
 nick1: nrwth4
+/authok nick1
+nick2 зашел в чат
+nick2: evwrf
+nick1: grf
+nick3 зашел в чат
+nick3: egr
+nick2: bgerg
+nick1: bewrf
