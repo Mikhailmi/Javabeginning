@@ -72,6 +72,7 @@ public class ClientHandler {
                     readMessages();
                 } catch (IOException | SQLException ex) {
                     ex.printStackTrace();
+                    server.logger.info("Произошла ошибка");
                 } finally {
                     closeConnection();
                 }
@@ -94,6 +95,7 @@ public class ClientHandler {
         while (true) {
 
                 String str = in.readUTF();
+            server.logger.info("Клиент авторизовался");
             if (str.startsWith(Constants.AUTH_COMMAND)) {
                 String[] tokens = str.split("\\s+"); // пробел один или больше между словами и получаем массив длиной 3
                 String nick = server.getAuthService().getNickByLoginPass(tokens[1], tokens[2]);
@@ -124,6 +126,7 @@ public class ClientHandler {
     public void readMessages() throws IOException {
         while (true) {
             String strFromClient = in.readUTF();
+            server.logger.info("Клиент прислал сообщение/команду: " + strFromClient);
 
             if (strFromClient.startsWith(Constants.CLIENTS_LIST_COMMAND)) {
                 sendMsg(server.getActiveClients());
@@ -177,6 +180,7 @@ public class ClientHandler {
         server.unsubscribe(this);
         server.broadcastMsg(name + " вышел из чата");
         System.out.println("Соединение закрыто");
+
         try {
             in.close();
         } catch (IOException ex) {

@@ -6,15 +6,21 @@ package java2lesson7_8_java3lesson2_3.server;
  */
 
 import java2lesson7_8_java3lesson2_3.constants.Constants;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.stream.Collectors;
 
+
+
 public class MyServer {
+
+   public static final Logger logger = LogManager.getLogger(MyServer.class);
 
 
     /**
@@ -33,8 +39,10 @@ public class MyServer {
         return authService;
     }
 
+
     public MyServer() {
         try (ServerSocket server = new ServerSocket(Constants.SERVER_PORT)) {
+            logger.info("Сервер запущен");
             authService = new BaseAuthService();
             authService.start();
             clients = new ArrayList<>();
@@ -42,6 +50,7 @@ public class MyServer {
                 System.out.println("Сервер ожидает подключения");
                 Socket socket = server.accept();
                 System.out.println("Клиент подключился");
+                logger.info("Клиент подключился");
                 new ClientHandler(this, socket);
 
                 File serverDir = new File ("src/main/java/java2lesson7_8_java3lesson2_3/server");

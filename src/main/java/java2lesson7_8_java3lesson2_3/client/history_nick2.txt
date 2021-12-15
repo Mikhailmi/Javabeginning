@@ -14,3 +14,6 @@ nick3 зашел в чат
 nick3: egr
 nick2: bgerg
 nick1: bewrf
+/authok nick2
+nick2: erwfeqfewgrae
+nick2: bewrgqf
