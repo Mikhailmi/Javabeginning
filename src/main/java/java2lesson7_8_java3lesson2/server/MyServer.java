@@ -1,18 +1,18 @@
-package java2lesson7.server;
+package java2lesson7_8_java3lesson2.server;
 
 /**
 * Логика сервера
 
  */
 
-
-import java2lesson7.constants.Constants;
+import java2lesson7_8_java3lesson2.constants.Constants;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MyServer {
 
@@ -99,10 +99,14 @@ public class MyServer {
 
     public synchronized String getActiveClients() {
         StringBuilder sb = new StringBuilder(Constants.CLIENTS_LIST_COMMAND).append(" ");
-        for (ClientHandler clientHandler : clients) {
+        sb.append(clients.stream()
+                .map(c -> c.getName())
+        .collect(Collectors.joining(" "))
+        );
+        /* for (ClientHandler clientHandler : clients) {
             sb.append(clientHandler.getNick()).append(" ");
 
-        }
+        }*/
         return sb.toString();
 
     }

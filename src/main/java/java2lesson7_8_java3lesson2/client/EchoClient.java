@@ -1,7 +1,7 @@
-package java2lesson7.client;
+package java2lesson7_8_java3lesson2.client;
 
 
-import java2lesson7.constants.Constants;
+import java2lesson7_8_java3lesson2.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,8 +30,8 @@ public class EchoClient extends JFrame {
                 openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
+           }
 
-            }
             prepareUI();
         }
 
@@ -43,10 +43,10 @@ public class EchoClient extends JFrame {
             new Thread(() -> {
                 try {
                     while (true) {
-                            String messageFromServer = dataInputStream.readUTF();
-                            if (messageFromServer.equals("/end")) {
-                                break;
-                            }
+                        String messageFromServer = dataInputStream.readUTF();
+                        if (messageFromServer.equals("/end")) {
+                            break;
+                        }
 
                         if (messageFromServer.startsWith(Constants.AUTH_OK_COMMAND)) {
 
@@ -70,14 +70,7 @@ public class EchoClient extends JFrame {
                     e.printStackTrace();
                 }
             }).start();
-
-
-
-
         }
-
-
-
 
         private void closeConnection () {
             try {

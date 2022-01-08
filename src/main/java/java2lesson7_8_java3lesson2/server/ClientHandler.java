@@ -1,13 +1,16 @@
-package java2lesson7.server;
+package java2lesson7_8_java3lesson2.server;
 
-import java2lesson7.constants.Constants;
+import java2lesson7_8_java3lesson2.constants.Constants;
 
-import javax.print.DocFlavor;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Optional;
+
 
 /**
  * Обработчик для конкретного клиента
@@ -19,6 +22,7 @@ public class ClientHandler {
     private DataInputStream in;
     private DataOutputStream out;
     private boolean isAuthorized = false;
+    private static Statement stmt;
 
     private String name;
 
@@ -35,7 +39,7 @@ public class ClientHandler {
 
 
                         if (isAuthorized == false) {
-                            Thread.sleep(1);
+                            Thread.sleep(120000);
                             if (isAuthorized == false) {
                                 closeConnection();
                                 break;
@@ -57,14 +61,9 @@ public class ClientHandler {
             this.name = "";
             new Thread(() -> {
                 try {
-
-
                     authentication();
-
-
-
                     readMessages();
-                } catch (IOException ex) {
+                } catch (IOException | SQLException ex) {
                     ex.printStackTrace();
                 } finally {
                     closeConnection();
@@ -84,20 +83,20 @@ public class ClientHandler {
 
     // auth login pass
 
-    public synchronized void authentication() throws IOException {
+    public synchronized void authentication() throws IOException, SQLException {
         while (true) {
 
                 String str = in.readUTF();
-                if (str.startsWith(Constants.AUTH_COMMAND)) {
-                    String[] tokens = str.split("\\s+"); // пробел один или больше между словами и получаем массив длиной 3
-                    String nick = server.getAuthService().getNickByLoginPass(tokens[1], tokens[2]);
-                    if (nick != null) {
-                        if (!server.isNickBusy(nick)) {
-                            sendMsg(Constants.AUTH_OK_COMMAND + " " + nick);
-                            name = nick;
-                            server.broadcastMsg(name + " зашел в чат");
-                            server.subscribe(this);
-                            isAuthorized = true;
+            if (str.startsWith(Constants.AUTH_COMMAND)) {
+                String[] tokens = str.split("\\s+"); // пробел один или больше между словами и получаем массив длиной 3
+                String nick = server.getAuthService().getNickByLoginPass(tokens[1], tokens[2]);
+                if (nick != null) {
+                    if (!server.isNickBusy(nick)) {
+                        sendMsg(Constants.AUTH_OK_COMMAND + " " + nick);
+                        name = nick;
+                        server.broadcastMsg(name + " зашел в чат");
+                        server.subscribe(this);
+                        isAuthorized = true;
 
 
                             return;
@@ -118,6 +117,7 @@ public class ClientHandler {
 
 
 
+
     public void readMessages() throws IOException {
         while (true) {
             String strFromClient = in.readUTF();
@@ -133,7 +133,16 @@ public class ClientHandler {
                 String[] tokens = strFromClient.split("\\s+");
                 server.privateOutMsg(ClientHandler.this, tokens[1], tokens[2]);
 
-                } else {
+
+                }
+
+            if (strFromClient.startsWith(Constants.CHANGE_NICK_COMMAND)) {
+                String[] tokens = strFromClient.split("\\s+");
+                String lastName = name;
+                name = tokens[1];
+                server.broadcastMsg(lastName + " изменил свой ник на: " + name);
+
+            } else {
                 server.broadcastMsg(name + ": " + strFromClient);
 
             }
