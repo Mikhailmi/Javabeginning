@@ -1,15 +1,15 @@
-package java2lesson7_8_java3lesson2.server;
+package java2lesson7_8_java3lesson2_3.server;
 
-import java2lesson7_8_java3lesson2.constants.Constants;
+import java2lesson7_8_java3lesson2_3.constants.Constants;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -33,7 +33,13 @@ public class ClientHandler {
 
     public ClientHandler(MyServer server, Socket socket) {
         try {
-            new Thread(() -> {
+           // new Thread(() -> { // Задание: заменить все серверные треды на экзекьютор сервис - создать пул потоков и потом его переиспользовать
+                // те ранаблы, которые пихали в треды, отправить в экзекутор сервис. Могут понадобиться гетеры для экзекьютор сервис
+
+
+            ExecutorService executorService = Executors.newCachedThreadPool();
+            executorService.execute(() -> {
+
                 try {
                     while (true) {
 
@@ -52,7 +58,8 @@ public class ClientHandler {
                     ex.printStackTrace();
                 }
 
-            }).start();
+            }); // .start();
+            executorService.shutdown();
 
             this.server = server;
             this.socket = socket;
@@ -65,6 +72,7 @@ public class ClientHandler {
                     readMessages();
                 } catch (IOException | SQLException ex) {
                     ex.printStackTrace();
+                    server.logger.info("Произошла ошибка");
                 } finally {
                     closeConnection();
                 }
@@ -87,6 +95,7 @@ public class ClientHandler {
         while (true) {
 
                 String str = in.readUTF();
+            server.logger.info("Клиент авторизовался");
             if (str.startsWith(Constants.AUTH_COMMAND)) {
                 String[] tokens = str.split("\\s+"); // пробел один или больше между словами и получаем массив длиной 3
                 String nick = server.getAuthService().getNickByLoginPass(tokens[1], tokens[2]);
@@ -114,13 +123,10 @@ public class ClientHandler {
 
     }
 
-
-
-
-
     public void readMessages() throws IOException {
         while (true) {
             String strFromClient = in.readUTF();
+            server.logger.info("Клиент прислал сообщение/команду: " + strFromClient);
 
             if (strFromClient.startsWith(Constants.CLIENTS_LIST_COMMAND)) {
                 sendMsg(server.getActiveClients());
@@ -152,6 +158,9 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,6 +180,7 @@ public class ClientHandler {
         server.unsubscribe(this);
         server.broadcastMsg(name + " вышел из чата");
         System.out.println("Соединение закрыто");
+
         try {
             in.close();
         } catch (IOException ex) {

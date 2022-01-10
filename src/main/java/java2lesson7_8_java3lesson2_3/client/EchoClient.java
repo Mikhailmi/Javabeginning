@@ -1,16 +1,16 @@
-package java2lesson7_8_java3lesson2.client;
+package java2lesson7_8_java3lesson2_3.client;
 
 
-import java2lesson7_8_java3lesson2.constants.Constants;
+import java2lesson7_8_java3lesson2_3.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EchoClient extends JFrame {
 
@@ -23,11 +23,15 @@ public class EchoClient extends JFrame {
         private DataInputStream dataInputStream;
         private DataOutputStream dataOutputStream;
         private String login;
+        private File clientHistory;
 
 
         public EchoClient() {
             try {
+
                 openConnection();
+
+
             } catch (IOException e) {
                 e.printStackTrace();
            }
@@ -54,6 +58,45 @@ public class EchoClient extends JFrame {
                             this.login = tokens[1];
                             textArea.append("Успешно авторизован как " + login);
                             textArea.append("\n");
+
+                            /**
+                             * Здесь создание пути и папки для записи истории клиента
+                             */
+
+
+                            File clientDir = new File ("src/main/java/java2lesson7_8_java3lesson2_3/client");
+                            if (!clientDir.exists()) {
+                                clientDir.mkdir();
+                            }
+                            clientHistory = new File (clientDir, "history_" + login + ".txt");
+                            if (!clientHistory.exists()){
+                                clientHistory.createNewFile();
+                            }
+
+                            /**
+                             * Далее код для отображения последних 100 сообщений из истории чата                             *
+                             */
+
+                            File serverDir = new File ("src/main/java/java2lesson7_8_java3lesson2_3/server");
+                            File serverHistory = new File (serverDir, "server_history.txt");
+                            List<String> historyList = new ArrayList<>();
+                            FileInputStream in = new FileInputStream(serverHistory);
+                            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+                            String temp;
+                            while ((temp = bufferedReader.readLine()) != null) {
+                                historyList.add(temp);
+                            }
+                            int outHistory = 100;
+                            if (historyList.size() > outHistory) {
+                                for (int i = historyList.size() - outHistory; i < historyList.size(); i++) {
+                                   textArea.append(historyList.get(historyList.size() - i) + "\n");
+                                }
+                            } else {
+                                for (int i = 0; i < historyList.size(); i++) {
+                                    textArea.append(historyList.get(i) + "\n");
+                                }
+                            }
+
                         } else if (messageFromServer.startsWith(Constants.CLIENTS_LIST_COMMAND)) {
                             // список клиентов
 
@@ -62,7 +105,21 @@ public class EchoClient extends JFrame {
                             textArea.append("\n");
                         }
 
+                        /**
+                         * Здесь код для записи истории конкретного клиента
+                         */
+                        if (!(clientHistory == null)) {
+                            byte [] outData = (messageFromServer + "\n").getBytes();
+                            try {
+                                FileOutputStream out = new FileOutputStream(clientHistory, true);
+                                out.write(outData);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                     }
+
                     textArea.append("Соединение разорвано");
                     textField.setEnabled(false);
                     closeConnection();
@@ -70,6 +127,9 @@ public class EchoClient extends JFrame {
                     e.printStackTrace();
                 }
             }).start();
+
+
+
         }
 
         private void closeConnection () {
@@ -95,8 +155,10 @@ public class EchoClient extends JFrame {
             if (textField.getText().trim().isEmpty()){
                 return;
             }
-            try {
+
+                       try {
                 dataOutputStream.writeUTF(textField.getText());
+
                 textField.setText("");
                 textField.grabFocus();
             } catch (Exception ex) {

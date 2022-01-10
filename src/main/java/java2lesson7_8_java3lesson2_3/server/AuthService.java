@@ -1,4 +1,4 @@
-package java2lesson7_8_java3lesson2.server;
+package java2lesson7_8_java3lesson2_3.server;
 
 import java.sql.SQLException;
 
@@ -21,7 +21,6 @@ public interface AuthService {
      */
 
    String getNickByLoginPass(String login, String pass) throws SQLException;
-
        /**
      * Отключить сервис
      */

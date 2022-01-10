@@ -1,4 +1,4 @@
-package java2lesson7_8_java3lesson2.constants;
+package java2lesson7_8_java3lesson2_3.constants;
 
 public class Constants {
 
@@ -23,5 +23,4 @@ public class Constants {
     public static final String CLIENTS_LIST_COMMAND = "/clients";
 
     public static final String CHANGE_NICK_COMMAND = "/rename";
-
 }
